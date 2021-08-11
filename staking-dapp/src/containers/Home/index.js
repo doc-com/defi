@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import lifechange from '../../assets/images/lifechange.png';
+import ERC20Exchanger from 'utils/ERC20/erc20Exchanger';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import './style.scss';
 import { useSelector } from 'react-redux';
 import StakeGro from 'utils/GRO/STKGRO';
-import ERC20Exchanger from 'utils/ERC20/erc20Exchanger';
+
+import lifechange from '../../assets/images/lifechange.png';
 
 function Home() {
   const user = useSelector((state) => state.auth.userData);
@@ -29,14 +30,20 @@ function Home() {
     const web3 = web3Object;
     // Init erc721 smart contract invoke service
     const stkGro = new StakeGro(web3);
-    const erc20Exchnager = new ERC20Exchanger(web3);
-    const approveRes = await erc20Exchnager.approve(
+    const erc20Exchanger = new ERC20Exchanger(web3);
+
+    const decimals = await erc20Exchanger.decimals();
+    const strPrice = web3.utils.toBN(
+      `0x${(depositAmount * 10 ** decimals).toString(16)}`,
+    );
+    console.log(process.env.REACT_APP_STAKING_CONTRACT);
+    const approveRes = await erc20Exchanger.approve(
       user.account,
       process.env.REACT_APP_STAKING_CONTRACT,
-      depositAmount,
+      strPrice,
     );
     console.log(approveRes);
-    const res = await stkGro.deposit(user.account, '98');
+    const res = await stkGro.deposit(user.account, strPrice);
     console.log(res);
   };
   const withdraw = async () => {
@@ -45,7 +52,12 @@ function Home() {
     const web3 = web3Object;
     // Init erc721 smart contract invoke service
     const stkGro = new StakeGro(web3);
-    const res = await stkGro.widthraw(user.account, withdrawAmount);
+    const erc20Exchanger = new ERC20Exchanger(web3);
+    const decimals = await erc20Exchanger.decimals();
+    const strPrice = web3.utils.toBN(
+      `0x${(withdrawAmount * 10 ** decimals).toString(16)}`,
+    );
+    const res = await stkGro.widthraw(user.account, strPrice);
     console.log(res);
   };
 
@@ -147,7 +159,11 @@ function Home() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          stkMTC is the tokenised representation of having MTC staked on the Binance Smart Chain blockchain. The purpose of the staking pool is to distribute a % of the revenue from Doc.com data sales with long-term holders of MTC. stkMTC is always appreciating vs MTC. The fee structure is 6% total for every stake/unstake (3% is burnt and 3% goes back to stkMTC holders.)
+          stkMTC is the tokenised representation of having MTC staked on the Binance Smart Chain blockchain.
+          The purpose of the staking pool is to distribute a % of the
+          revenue from Doc.com data sales with long-term holders of MTC.
+          stkMTC is always appreciating vs MTC. The fee structure is 6%
+          total for every stake/unstake (3% is burnt and 3% goes back to stkMTC holders.)
         </DialogTitle>
       </Dialog>
     </div>
