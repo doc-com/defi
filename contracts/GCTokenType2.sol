@@ -36,12 +36,12 @@ contract GCTokenType2 is GCTokenBase
 	 * @param _miningToken The ERC-20 token used for liquidity mining on
 	 *                     compound (COMP).
 	 * @param _borrowToken The cToken used for borrowing funds on compound (cDAI).
-	 * @param _growthToken The gToken used for reinvesting borrowed funds (gDAI).
+	 * @param _mtcToken The gToken used for reinvesting borrowed funds (gDAI).
 	 */
-	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken, address _borrowToken, address _growthToken)
-		GCTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken, _miningToken, _growthToken) public
+	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken, address _borrowToken, address _mtcToken)
+		GCTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken, _miningToken, _mtcToken) public
 	{
-		drm.init(_reserveToken, _miningToken, _borrowToken, _growthToken);
+		drm.init(_reserveToken, _miningToken, _borrowToken, _mtcToken);
 	}
 
 	/**
@@ -102,14 +102,14 @@ contract GCTokenType2 is GCTokenBase
 	 *         underlying asset and used to mint the associated cToken.
 	 *         This range is used to avoid wasting gas converting small
 	 *         amounts as well as mitigating slipage converting large amounts.
-	 * @return _growthMinGulpAmount The minimum profit of the gToken reserve
+	 * @return _mtcMinGulpAmount The minimum profit of the gToken reserve
 	 *                              to be processed per deposit/withdrawal.
-	 * @return _growthMaxGulpAmount The maximum profit of the gToken reserve
+	 * @return _mtcMaxGulpAmount The maximum profit of the gToken reserve
 	 *                              to be processed per deposit/withdrawal.
 	 */
-	function growthGulpRange() public view override returns (uint256 _growthMinGulpAmount, uint256 _growthMaxGulpAmount)
+	function mtcGulpRange() public view override returns (uint256 _mtcMinGulpAmount, uint256 _mtcMaxGulpAmount)
 	{
-		return (drm.growthMinGulpAmount, drm.growthMaxGulpAmount);
+		return (drm.mtcMinGulpAmount, drm.mtcMaxGulpAmount);
 	}
 
 	/**
@@ -160,16 +160,16 @@ contract GCTokenType2 is GCTokenBase
 
 	/**
 	 * @notice Sets the minimum and maximum amount of the gToken reserve profit
-	 *         to be processed on every operation. See growthGulpRange().
+	 *         to be processed on every operation. See mtcGulpRange().
 	 *         This is a priviledged function restricted to the contract owner.
-	 * @param _growthMinGulpAmount The minimum profit of the gToken reserve
+	 * @param _mtcMinGulpAmount The minimum profit of the gToken reserve
 	 *                             to be processed per deposit/withdrawal.
-	 * @param _growthMaxGulpAmount The maximum profit of the gToken reserve
+	 * @param _mtcMaxGulpAmount The maximum profit of the gToken reserve
 	 *                             to be processed per deposit/withdrawal.
 	 */
-	function setGrowthGulpRange(uint256 _growthMinGulpAmount, uint256 _growthMaxGulpAmount) public override onlyOwner nonReentrant
+	function setMtcGulpRange(uint256 _mtcMinGulpAmount, uint256 _mtcMaxGulpAmount) public override onlyOwner nonReentrant
 	{
-		drm.setGrowthGulpRange(_growthMinGulpAmount, _growthMaxGulpAmount);
+		drm.setMtcGulpRange(_mtcMinGulpAmount, _mtcMaxGulpAmount);
 	}
 
 	/**

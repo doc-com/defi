@@ -24,7 +24,7 @@ import { $ } from "./network/$.sol";
 abstract contract GCTokenBase is GTokenBase, GCToken, GMining
 {
 	address public immutable override miningToken;
-	address public immutable override growthToken;
+	address public immutable override mtcToken;
 	address public immutable override underlyingToken;
 
 	/**
@@ -38,15 +38,15 @@ abstract contract GCTokenBase is GTokenBase, GCToken, GMining
 	 *                      token (e.g. cDAI for gcDAI).
 	 * @param _miningToken The ERC-20 token used for liquidity mining on
 	 *                     compound (COMP).
-	 * @param _growthToken The ERC-20 token address of the associated
+	 * @param _mtcToken The ERC-20 token address of the associated
 	 *                     gToken, for gcTokens Type 2, or address(0),
 	 *                     if this contract is a gcToken Type 1.
 	 */
-	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken, address _growthToken)
+	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken, address _mtcToken)
 		GTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken) public
 	{
 		miningToken = _miningToken;
-		growthToken = _growthToken;
+		mtcToken = _mtcToken;
 		address _underlyingToken = GC.getUnderlyingToken(_reserveToken);
 		underlyingToken = _underlyingToken;
 	}

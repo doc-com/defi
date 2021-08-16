@@ -112,14 +112,14 @@ contract GCTokenType1 is GCTokenBase, GFlashBorrower
 	 * @notice Provides the minimum and maximum amount of the gcToken Type 1 to
 	 *         be processed on every operation. This method applies only to
 	 *         gcTokens Type 2 and is not relevant for gcTokens Type 1.
-	 * @return _growthMinGulpAmount The minimum amount of the gcToken Type 1
+	 * @return _mtcMinGulpAmount The minimum amount of the gcToken Type 1
 	 *                              to be processed per deposit/withdrawal
 	 *                              (always 0).
-	 * @return _growthMaxGulpAmount The maximum amount of the gcToken Type 1
+	 * @return _mtcMaxGulpAmount The maximum amount of the gcToken Type 1
 	 *                              to be processed per deposit/withdrawal
 	 *                              (always 0).
 	 */
-	function growthGulpRange() public view override returns (uint256 _growthMinGulpAmount, uint256 _growthMaxGulpAmount)
+	function mtcGulpRange() public view override returns (uint256 _mtcMinGulpAmount, uint256 _mtcMaxGulpAmount)
 	{
 		return (0, 0);
 	}
@@ -179,16 +179,16 @@ contract GCTokenType1 is GCTokenBase, GFlashBorrower
 	 *         be processed on every operation. This method applies only to
 	 *         gcTokens Type 2 and is not relevant for gcTokens Type 1.
 	 *         This is a priviledged function restricted to the contract owner.
-	 * @param _growthMinGulpAmount The minimum amount of the gcToken Type 1
+	 * @param _mtcMinGulpAmount The minimum amount of the gcToken Type 1
 	 *                             to be processed per deposit/withdrawal
 	 *                             (ignored).
-	 * @param _growthMaxGulpAmount The maximum amount of the gcToken Type 1
+	 * @param _mtcMaxGulpAmount The maximum amount of the gcToken Type 1
 	 *                             to be processed per deposit/withdrawal
 	 *                             (ignored).
 	 */
-	function setGrowthGulpRange(uint256 _growthMinGulpAmount, uint256 _growthMaxGulpAmount) public override /*onlyOwner nonReentrant*/
+	function setMtcGulpRange(uint256 _mtcMinGulpAmount, uint256 _mtcMaxGulpAmount) public override /*onlyOwner nonReentrant*/
 	{
-		_growthMinGulpAmount; _growthMaxGulpAmount; // silences warnings
+		_mtcMinGulpAmount; _mtcMaxGulpAmount; // silences warnings
 	}
 
 	/**

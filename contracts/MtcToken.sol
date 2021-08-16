@@ -44,7 +44,7 @@ contract SafeMath_
 	}
 }
 
-contract GrowthToken is ERC20Interface, SafeMath_
+contract MtcToken is ERC20Interface, SafeMath_
 {
 	string public name;
 	string public symbol;
@@ -57,7 +57,7 @@ contract GrowthToken is ERC20Interface, SafeMath_
 
 	constructor () public
 	{
-		name = "Growth";
+		name = "Mtc";
 		symbol = "MTC";
 		decimals = 18;
 		_totalSupply = 1000000000000000000000000;

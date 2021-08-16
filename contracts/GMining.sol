@@ -9,13 +9,13 @@ interface GMining
 {
 	// view functions
 	function miningToken() external view returns (address _miningToken);
-	function growthToken() external view returns (address _growthToken);
+	function mtcToken() external view returns (address _mtcToken);
 	function exchange() external view returns (address _exchange);
 	function miningGulpRange() external view returns (uint256 _miningMinGulpAmount, uint256 _miningMaxGulpAmount);
-	function growthGulpRange() external view returns (uint256 _growthMinGulpAmount, uint256 _growthMaxGulpAmount);
+	function mtcGulpRange() external view returns (uint256 _mtcMinGulpAmount, uint256 _mtcMaxGulpAmount);
 
 	// priviledged functions
 	function setExchange(address _exchange) external;
 	function setMiningGulpRange(uint256 _miningMinGulpAmount, uint256 _miningMaxGulpAmount) external;
-	function setGrowthGulpRange(uint256 _growthMinGulpAmount, uint256 _growthMaxGulpAmount) external;
+	function setMtcGulpRange(uint256 _mtcMinGulpAmount, uint256 _mtcMaxGulpAmount) external;
 }

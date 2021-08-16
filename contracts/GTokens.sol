@@ -16,7 +16,7 @@ import { $ } from "./network/$.sol";
 contract gDAI is GTokenType0
 {
 	constructor ()
-		GTokenType0("growth DAI", "gDAI", 18, $.MTC, $.DAI) public
+		GTokenType0("mtc DAI", "gDAI", 18, $.MTC, $.DAI) public
 	{
 	}
 }
@@ -28,7 +28,7 @@ contract gDAI is GTokenType0
 contract gUSDC is GTokenType0
 {
 	constructor ()
-		GTokenType0("growth USDC", "gUSDC", 6, $.MTC, $.USDC) public
+		GTokenType0("mtc USDC", "gUSDC", 6, $.MTC, $.USDC) public
 	{
 	}
 }
@@ -40,7 +40,7 @@ contract gUSDC is GTokenType0
 contract gETH is GTokenType0
 {
 	constructor ()
-		GTokenType0("growth ETH", "gETH", 18, $.MTC, $.WETH) public
+		GTokenType0("mtc ETH", "gETH", 18, $.MTC, $.WETH) public
 	{
 	}
 }
@@ -52,7 +52,7 @@ contract gETH is GTokenType0
 contract gWBTC is GTokenType0
 {
 	constructor ()
-		GTokenType0("growth WBTC", "gWBTC", 8, $.MTC, $.WBTC) public
+		GTokenType0("mtc WBTC", "gWBTC", 8, $.MTC, $.WBTC) public
 	{
 	}
 }
@@ -64,7 +64,7 @@ contract gWBTC is GTokenType0
 contract gcDAI is GCTokenType1
 {
 	constructor ()
-		GCTokenType1("growth cDAI", "gcDAI", 8, $.MTC, $.cDAI, $.COMP) public
+		GCTokenType1("mtc cDAI", "gcDAI", 8, $.MTC, $.cDAI, $.COMP) public
 	{
 	}
 }
@@ -76,7 +76,7 @@ contract gcDAI is GCTokenType1
 contract gcUSDC is GCTokenType1
 {
 	constructor ()
-		GCTokenType1("growth cUSDC", "gcUSDC", 8, $.MTC, $.cUSDC, $.COMP) public
+		GCTokenType1("mtc cUSDC", "gcUSDC", 8, $.MTC, $.cUSDC, $.COMP) public
 	{
 	}
 }
@@ -87,8 +87,8 @@ contract gcUSDC is GCTokenType1
  */
 contract gcETH is GCTokenType2
 {
-	constructor (address _growthToken)
-		GCTokenType2("growth cETH", "gcETH", 8, $.MTC, $.cETH, $.COMP, $.cDAI, _growthToken) public
+	constructor (address _mtcToken)
+		GCTokenType2("mtc cETH", "gcETH", 8, $.MTC, $.cETH, $.COMP, $.cDAI, _mtcToken) public
 	{
 	}
 
@@ -101,8 +101,8 @@ contract gcETH is GCTokenType2
  */
 contract gcWBTC is GCTokenType2
 {
-	constructor (address _growthToken)
-		GCTokenType2("growth cWBTC", "gcWBTC", 8, $.MTC, $.cWBTC, $.COMP, $.cDAI, _growthToken) public
+	constructor (address _mtcToken)
+		GCTokenType2("mtc cWBTC", "gcWBTC", 8, $.MTC, $.cWBTC, $.COMP, $.cDAI, _mtcToken) public
 	{
 	}
 }

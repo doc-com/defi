@@ -30,10 +30,6 @@ module.exports = {
       provider: () => new HDWalletProvider(privateKey, `https://rinkeby.infura.io/v3/29f0131a60c4424bb401b8834c78585f`),
       network_id: 4
     },
-    smarttestnet: {
-      provider: () => new HDWalletProvider(privateKey, `https://data-seed-prebsc-2-s1.binance.org:8545/`),
-      network_id: 97
-    },
     kovan: {
       network_id: 42,
       networkCheckTimeout: 10000, // fixes truffle/infura bug
@@ -60,5 +56,24 @@ module.exports = {
       port: 8545,
       skipDryRun: true,
     },
-  }
+    testnet: {
+        provider: () => new HDWalletProvider(privateKey, `https://data-seed-prebsc-2-s1.binance.org:8545`),
+        network_id: 97,
+        timeoutBlocks: 200,
+        confirmations: 5,
+        production: true    // Treats this network as if it was a public net. (default: false)
+    },
+    bsc: {
+      provider: () => new HDWalletProvider(privateKey, `https://bsc-dataseed.binance.org/`),
+      network_id: 56,
+      confirmations: 10,    // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
+    }
+  },
+  plugins: ['truffle-plugin-verify'],
+  api_keys: {
+    etherscan: 'FZC85PUQIIMKU1Q4YUAPY93XVWGMUQKKHH',
+    bscscan: 'XTIU11HTX3HRQ79JFSFTYAG9J4HCHE3FV1'
+  },
 };

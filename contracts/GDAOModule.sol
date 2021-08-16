@@ -32,7 +32,7 @@ contract GDAOModule is ReentrancyGuard
 	using SafeMath for uint256;
 	using EnumerableSet for EnumerableSet.AddressSet;
 
-	string public constant NAME = "GrowthDeFi DAO Module";
+	string public constant NAME = "MtcDeFi DAO Module";
 	string public constant VERSION = "0.0.2";
 
 	uint256 constant VOTING_ROUND_INTERVAL = 1 days;

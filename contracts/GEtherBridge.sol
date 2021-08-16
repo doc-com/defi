@@ -20,19 +20,19 @@ contract GEtherBridge
 	 *         expects ETH to be sent; which in turn will be converted into
 	 *         shares. See GToken.sol and GTokenBase.sol for further
 	 *         documentation.
-	 * @param _growthToken The WETH based gToken.
+	 * @param _mtcToken The WETH based gToken.
 	 */
-	function deposit(address _growthToken) public payable
+	function deposit(address _mtcToken) public payable
 	{
 		address _from = msg.sender;
 		uint256 _cost = msg.value;
-		address _reserveToken = GToken(_growthToken).reserveToken();
+		address _reserveToken = GToken(_mtcToken).reserveToken();
 		require(_reserveToken == $.WETH, "ETH operation not supported by token");
 		G.safeWrap(_cost);
-		G.approveFunds(_reserveToken, _growthToken, _cost);
-		GToken(_growthToken).deposit(_cost);
-		uint256 _netShares = G.getBalance(_growthToken);
-		G.pushFunds(_growthToken, _from, _netShares);
+		G.approveFunds(_reserveToken, _mtcToken, _cost);
+		GToken(_mtcToken).deposit(_cost);
+		uint256 _netShares = G.getBalance(_mtcToken);
+		G.pushFunds(_mtcToken, _from, _netShares);
 	}
 
 	/**
@@ -40,16 +40,16 @@ contract GEtherBridge
 	 *         have WETH as its reserveToken. This method will redeem the
 	 *         sender's required balance in shares; which in turn will receive
 	 *         ETH. See GToken.sol and GTokenBase.sol for further documentation.
-	 * @param _growthToken The WETH based gToken.
+	 * @param _mtcToken The WETH based gToken.
 	 * @param _grossShares The number of shares to be redeemed.
 	 */
-	function withdraw(address _growthToken, uint256 _grossShares) public
+	function withdraw(address _mtcToken, uint256 _grossShares) public
 	{
 		address payable _from = msg.sender;
-		address _reserveToken = GToken(_growthToken).reserveToken();
+		address _reserveToken = GToken(_mtcToken).reserveToken();
 		require(_reserveToken == $.WETH, "ETH operation not supported by token");
-		G.pullFunds(_growthToken, _from, _grossShares);
-		GToken(_growthToken).withdraw(_grossShares);
+		G.pullFunds(_mtcToken, _from, _grossShares);
+		GToken(_mtcToken).withdraw(_grossShares);
 		uint256 _cost = G.getBalance(_reserveToken);
 		G.safeUnwrap(_cost);
 		_from.transfer(_cost);
@@ -61,19 +61,19 @@ contract GEtherBridge
 	 *         expects ETH to be sent; which in turn will be converted into
 	 *         shares. See GCToken.sol and GCTokenBase.sol for further
 	 *         documentation.
-	 * @param _growthToken The WETH based gcToken (e.g. gcETH).
+	 * @param _mtcToken The WETH based gcToken (e.g. gcETH).
 	 */
-	function depositUnderlying(address _growthToken) public payable
+	function depositUnderlying(address _mtcToken) public payable
 	{
 		address _from = msg.sender;
 		uint256 _underlyingCost = msg.value;
-		address _underlyingToken = GCToken(_growthToken).underlyingToken();
+		address _underlyingToken = GCToken(_mtcToken).underlyingToken();
 		require(_underlyingToken == $.WETH, "ETH operation not supported by token");
 		G.safeWrap(_underlyingCost);
-		G.approveFunds(_underlyingToken, _growthToken, _underlyingCost);
-		GCToken(_growthToken).depositUnderlying(_underlyingCost);
-		uint256 _netShares = G.getBalance(_growthToken);
-		G.pushFunds(_growthToken, _from, _netShares);
+		G.approveFunds(_underlyingToken, _mtcToken, _underlyingCost);
+		GCToken(_mtcToken).depositUnderlying(_underlyingCost);
+		uint256 _netShares = G.getBalance(_mtcToken);
+		G.pushFunds(_mtcToken, _from, _netShares);
 	}
 
 	/**
@@ -81,16 +81,16 @@ contract GEtherBridge
 	 *         have WETH as its underlyingToken. This method will redeem the
 	 *         sender's required balance in shares; which in turn will receive
 	 *         ETH. See GCToken.sol and GCTokenBase.sol for further documentation.
-	 * @param _growthToken The WETH based gcToken (e.g. gcETH).
+	 * @param _mtcToken The WETH based gcToken (e.g. gcETH).
 	 * @param _grossShares The number of shares to be redeemed.
 	 */
-	function withdrawUnderlying(address _growthToken, uint256 _grossShares) public
+	function withdrawUnderlying(address _mtcToken, uint256 _grossShares) public
 	{
 		address payable _from = msg.sender;
-		address _underlyingToken = GCToken(_growthToken).underlyingToken();
+		address _underlyingToken = GCToken(_mtcToken).underlyingToken();
 		require(_underlyingToken == $.WETH, "ETH operation not supported by token");
-		G.pullFunds(_growthToken, _from, _grossShares);
-		GCToken(_growthToken).withdrawUnderlying(_grossShares);
+		G.pullFunds(_mtcToken, _from, _grossShares);
+		GCToken(_mtcToken).withdrawUnderlying(_grossShares);
 		uint256 _underlyingCost = G.getBalance(_underlyingToken);
 		G.safeUnwrap(_underlyingCost);
 		_from.transfer(_underlyingCost);
