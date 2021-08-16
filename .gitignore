@@ -1,4 +1,6 @@
 /build/
 /node_modules/
 /.env
-/GrowthDeFi.sol
+.DS_Store
+.DS_Store/
+

@@ -1,4 +1,4 @@
-# MTC Staking
+# Lifechain Staking
 
 ## Building, Deploying and Testing
 
