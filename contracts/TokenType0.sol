@@ -1,51 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.6.0;
 
-import { GTokenBase } from "./GTokenBase.sol";
-import { GPortfolio } from "./GPortfolio.sol";
-import { GPortfolioReserveManager } from "./GPortfolioReserveManager.sol";
-
-/**
- * @notice This contract implements the functionality for the gToken Type 0.
- *         The gToken Type 0 provides a simple portfolio management strategy
- *         that splits the reserve asset percentually among multiple other
- *         gTokens. Also, it allows for part of the reserve to be kept liquid,
- *         in the reserve token itself, to save on gas fees. The contract owner
- *         can add and remove gTokens that compose the portfolio, as much as
- *         reconfigure their percentual shares. There is also a configurable
- *         rebalance margins that serves as threshold for when the contract will
- *         or not attempt to rebalance the reserve according to the set
- *         percentual ratios. The algorithm that maintains the proper
- *         distribution of the reserve token does so incrementally based on the
- *         following principles: 1) At each deposit/withdrawal, at most one
- *         underlying deposit/withdrawal is performed; 2) When the
- *         deposit/withdrawal can be served from the liquid pool, and within the
- *         bounds of the rebalance margin, no underlying deposit/withdrawal is
- *         performed; 3) When performing a rebalance the gToken with the
- *         most discrepant reserve share is chosen for rebalancing; 4) When
- *         performing an withdrawal, if it cannot be served entirely from
- *         the liquid pool, the we choose the gToken that can provide the
- *         required additional liquidity with the least percentual impact to
- *         its reserve share. As with all gTokens, gTokens Type 0 have an
- *         associated locked liquidity pool and follow the same fee structure.
- *         See GTokenBase and GPortfolioReserveManager for further documentation.
- */
-contract GTokenType0 is GTokenBase, GPortfolio
+contract TokenType0 is TokenBase
 {
 	using GPortfolioReserveManager for GPortfolioReserveManager.Self;
 
 	GPortfolioReserveManager.Self prm;
 
-	/**
-	 * @dev Constructor for the gToken Type 0 contract.
-	 * @param _name The ERC-20 token name.
-	 * @param _symbol The ERC-20 token symbol.
-	 * @param _decimals The ERC-20 token decimals.
-	 * @param _stakesToken The ERC-20 token address to be used as stakes
-	 *                     token (MTC).
-	 * @param _reserveToken The ERC-20 token address to be used as reserve
-	 *                      token (e.g. DAI for gDAI).
-	 */
 	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken)
 		GTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken) public
 	{

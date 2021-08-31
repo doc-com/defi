@@ -1,53 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.6.0;
-pragma experimental ABIEncoderV2;
 
-import { GCFormulae } from "./GCFormulae.sol";
-import { GCTokenBase } from "./GCTokenBase.sol";
-import { GCLeveragedReserveManager } from "./GCLeveragedReserveManager.sol";
-import { GFlashBorrower } from "./GFlashBorrower.sol";
-import { G } from "./G.sol";
-import { GC } from "./GC.sol";
-
-/**
- * @notice This contract implements the functionality for the gcToken Type 1.
- *         As with all gcTokens, gcTokens Type 1 use a Compound cToken as
- *         reserve token. Furthermore, Type 1 tokens may apply leverage to the
- *         reserve by using the cToken balance to borrow its associated
- *         underlying asset which in turn is used to mint more cToken. This
- *         process is performed to the limit where the actual reserve balance
- *         ends up accounting for the difference between the total amount lent
- *         and the total amount borrowed. One may observe that there is
- *         always a net loss when considering just the yield accrued for
- *         lending minus the yield accrued for borrowing on Compound. However,
- *         if we consider COMP being credited for liquidity mining the net
- *         balance may become positive and that is when the leverage mechanism
- *         should be applied. The COMP is periodically converted to the
- *         underlying asset and naturally becomes part of the reserve.
- *         In order to easily and efficiently adjust the leverage, this contract
- *         performs flash loans. See GCTokenBase, GFlashBorrower and
- *         GCLeveragedReserveManager for further documentation.
- */
-contract GCTokenType1 is GCTokenBase, GFlashBorrower
+contract TokenType1 is TokenBase
 {
 	using GCLeveragedReserveManager for GCLeveragedReserveManager.Self;
 
 	GCLeveragedReserveManager.Self lrm;
 
-	/**
-	 * @dev Constructor for the gcToken Type 1 contract.
-	 * @param _name The ERC-20 token name.
-	 * @param _symbol The ERC-20 token symbol.
-	 * @param _decimals The ERC-20 token decimals.
-	 * @param _stakesToken The ERC-20 token address to be used as stakes
-	 *                     token (MTC).
-	 * @param _reserveToken The ERC-20 token address to be used as reserve
-	 *                      token (e.g. cDAI for gcDAI).
-	 * @param _miningToken The ERC-20 token used for liquidity mining on
-	 *                     compound (COMP).
-	 */
 	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken)
-		GCTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken, _miningToken, address(0)) public
+		TokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken, _miningToken, address(0)) public
 	{
 		lrm.init(_reserveToken, _miningToken);
 	}

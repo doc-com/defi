@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.6.0;
 
-import { GToken } from "./GToken.sol";
-
-/**
- * @dev Minimal interface for gcTokens, implemented by the GCTokenBase contract.
- *      See GCTokenBase.sol for further documentation.
- */
-interface GCToken is GToken
+interface Token is BaseToken
 {
 	// pure functions
 	function calcCostFromUnderlyingCost(uint256 _underlyingCost, uint256 _exchangeRate) external pure returns (uint256 _cost);

@@ -1,28 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.6.0;
 
-import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
-import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-
-import { GToken } from "./GToken.sol";
-import { GVoting } from "./GVoting.sol";
-import { GFormulae } from "./GFormulae.sol";
-import { G } from "./G.sol";
-
-/**
- * @notice This contract implements the functionality for the gToken Type 3.
- *         It has a higher deposit/withdrawal fee when compared to other
- *         gTokens (10%). Half of the collected fee used to reward token
- *         holders while the other half is burned along with the same proportion
- *         of the reserve. It is used in the implementation of stkMTC.
- */
-contract GTokenType3 is ERC20, ReentrancyGuard, GToken, GVoting
+contract TokenType3 is ERC20
 {
 	using SafeMath for uint256;
 
-	uint256 constant DEPOSIT_FEE = 6e16; // 6%
-	uint256 constant WITHDRAWAL_FEE = 6e16; // 6%
+	uint256 constant DEPOSIT_FEE = 6e16; 
+	uint256 constant WITHDRAWAL_FEE = 6e16; 
 
 	uint256 constant VOTING_ROUND_INTERVAL = 1 days;
 

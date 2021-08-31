@@ -1,43 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.6.0;
 
-import { GCFormulae } from "./GCFormulae.sol";
-import { GCTokenBase } from "./GCTokenBase.sol";
-import { GCDelegatedReserveManager } from "./GCDelegatedReserveManager.sol";
-import { G } from "./G.sol";
-import { GC } from "./GC.sol";
-
-/**
- * @notice This contract implements the functionality for the gcToken Type 2.
- *         As with all gcTokens, gcTokens Type 2 use a Compound cToken as
- *         reserve token. Furthermore, Type 2 tokens will use that cToken
- *         balance to borrow funds that are then deposited into another gToken.
- *         Periodically the gcToken Type 2 will collect profits from liquidity
- *         mining COMP, as well as profits from investing borrowed assets in
- *         the gToken. These profits are converted into the cToken underlying 
- *         asset and incorporated to the reserve. See GCTokenBase and
- *         GCDelegatedReserveManager for further documentation.
- */
-contract GCTokenType2 is GCTokenBase
-{
-	using GCDelegatedReserveManager for GCDelegatedReserveManager.Self;
+contract TokenType2 is TokenBase
 
 	GCDelegatedReserveManager.Self drm;
 
-	/**
-	 * @dev Constructor for the gcToken Type 2 contract.
-	 * @param _name The ERC-20 token name.
-	 * @param _symbol The ERC-20 token symbol.
-	 * @param _decimals The ERC-20 token decimals.
-	 * @param _stakesToken The ERC-20 token address to be used as stakes
-	 *                     token (MTC).
-	 * @param _reserveToken The ERC-20 token address to be used as reserve
-	 *                      token (e.g. cDAI for gcDAI).
-	 * @param _miningToken The ERC-20 token used for liquidity mining on
-	 *                     compound (COMP).
-	 * @param _borrowToken The cToken used for borrowing funds on compound (cDAI).
-	 * @param _mtcToken The gToken used for reinvesting borrowed funds (gDAI).
-	 */
 	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken, address _borrowToken, address _mtcToken)
 		GCTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken, _miningToken, _mtcToken) public
 	{

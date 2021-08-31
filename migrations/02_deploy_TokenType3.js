@@ -3,7 +3,7 @@ const names = [
 ];
 
 const G = artifacts.require('G');
-const GTokenRegistry = artifacts.require('GTokenRegistry');
+const GTokenRegistry = artifacts.require('TokenRegistry');
 
 module.exports = async (deployer, network) => {
   const registry = await GTokenRegistry.deployed();

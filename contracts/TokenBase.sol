@@ -1,49 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-only
 pragma solidity ^0.6.0;
 
-import { GFormulae } from "./GFormulae.sol";
-import { GTokenBase } from "./GTokenBase.sol";
-import { GCToken } from "./GCToken.sol";
-import { GCFormulae } from "./GCFormulae.sol";
-import { GMining } from "./GMining.sol";
-import { G } from "./G.sol";
-import { GC } from "./GC.sol";
-
 import { $ } from "./network/$.sol";
 
-/**
- * @notice This abstract contract provides the basis implementation for all
- *         gcTokens, i.e. gTokens that use Compound cTokens as reserve, and
- *         implements the common functionality shared amongst them.
- *         In a nutshell, it extends the functinality of the GTokenBase contract
- *         to support operating directly using the cToken underlying asset.
- *         Therefore this contract provides functions that encapsulate minting
- *         and redeeming of cTokens internally, allowing users to interact with
- *         the contract providing funds directly in their underlying asset.
- */
-abstract contract GCTokenBase is GTokenBase, GCToken, GMining
+abstract contract TokenBase is TokenBase
 {
 	address public immutable override miningToken;
 	address public immutable override mtcToken;
 	address public immutable override underlyingToken;
 
-	/**
-	 * @dev Constructor for the gcToken contract.
-	 * @param _name The ERC-20 token name.
-	 * @param _symbol The ERC-20 token symbol.
-	 * @param _decimals The ERC-20 token decimals.
-	 * @param _stakesToken The ERC-20 token address to be used as stakes
-	 *                     token (MTC).
-	 * @param _reserveToken The ERC-20 token address to be used as reserve
-	 *                      token (e.g. cDAI for gcDAI).
-	 * @param _miningToken The ERC-20 token used for liquidity mining on
-	 *                     compound (COMP).
-	 * @param _mtcToken The ERC-20 token address of the associated
-	 *                     gToken, for gcTokens Type 2, or address(0),
-	 *                     if this contract is a gcToken Type 1.
-	 */
 	constructor (string memory _name, string memory _symbol, uint8 _decimals, address _stakesToken, address _reserveToken, address _miningToken, address _mtcToken)
-		GTokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken) public
+		TokenBase(_name, _symbol, _decimals, _stakesToken, _reserveToken) public
 	{
 		miningToken = _miningToken;
 		mtcToken = _mtcToken;
@@ -186,15 +153,6 @@ abstract contract GCTokenBase is GTokenBase, GCToken, GMining
 		return GC.getBorrowAmount(reserveToken);
 	}
 
-	/**
-	 * @notice Performs the minting of gcToken shares upon the deposit of the
-	 *         cToken underlying asset. The funds will be pulled in by this
-	 *         contract, therefore they must be previously approved. This
-	 *         function builds upon the GTokenBase deposit function. See
-	 *         GTokenBase.sol for further documentation.
-	 * @param _underlyingCost The amount of the underlying asset being
-	 *                        deposited in the operation.
-	 */
 	function depositUnderlying(uint256 _underlyingCost) public override nonReentrant
 	{
 		address _from = msg.sender;

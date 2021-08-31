@@ -5,12 +5,6 @@ import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
 
 import { GFormulae } from "./GFormulae.sol";
 
-/**
- * @dev Pure implementation of deposit/minting and withdrawal/burning formulas
- *      for gTokens calculated based on the cToken underlying asset
- *      (e.g. DAI for cDAI). See GFormulae.sol and GCTokenBase.sol for further
- *      documentation.
- */
 library GCFormulae
 {
 	using SafeMath for uint256;
